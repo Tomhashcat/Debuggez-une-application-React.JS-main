@@ -14,6 +14,7 @@ const PER_PAGE = 9;
 const EventList = () => {
   const { data, error } = useData();
   const [type, setType] = useState();
+  
   const [currentPage, setCurrentPage] = useState(1);
   const changeType = (evtType) => {
     setCurrentPage(1);
