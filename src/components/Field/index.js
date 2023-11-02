@@ -6,12 +6,16 @@ export const FIELD_TYPES = {
   INPUT_TEXT: 1,
   TEXTAREA: 2,
 };
-
+const isAlpha = (str) => /^[A-Za-z]+$/.test(str);
 const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, value, onChange }) => {
   
   const handleChange = (e) => {
-    // Appel de la fonction de rappel pour mettre à jour la valeur dans le composant parent
-    onChange(e.target.value);
+    const newValue = e.target.value;
+
+    // Valider la nouvelle valeur pour ne permettre que des lettres
+    if (isAlpha(newValue) || newValue === '') {
+      onChange(newValue);
+    }
   };
   let component;
   switch (type) {
