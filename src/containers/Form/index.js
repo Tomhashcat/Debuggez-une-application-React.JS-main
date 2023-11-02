@@ -8,16 +8,25 @@ const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 1000
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // État pour le message d'erreur
+  const [successMessage, setSuccessMessage] = useState("");
+
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
       setSending(true);
+
+      setErrorMessage("");
+      setSuccessMessage("");
       // We try to call mockContactApi
       try {
         await mockContactApi();
         setSending(false);
+       
+        onSuccess();
       } catch (err) {
         setSending(false);
+        setErrorMessage("Une erreur s'est produite lors de l'envoi.");
         onError(err);
       }
     },
@@ -49,6 +58,9 @@ const Form = ({ onSuccess, onError }) => {
           />
         </div>
       </div>
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
+      {successMessage && <div className="success-message">{successMessage}</div>}
+    
     </form>
   );
 };
