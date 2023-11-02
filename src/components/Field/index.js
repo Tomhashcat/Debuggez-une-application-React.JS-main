@@ -7,7 +7,12 @@ export const FIELD_TYPES = {
   TEXTAREA: 2,
 };
 
-const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder }) => {
+const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, value, onChange }) => {
+  
+  const handleChange = (e) => {
+    // Appel de la fonction de rappel pour mettre à jour la valeur dans le composant parent
+    onChange(e.target.value);
+  };
   let component;
   switch (type) {
     case FIELD_TYPES.INPUT_TEXT:
@@ -15,6 +20,8 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder }) => {
         <input
           type="text"
           name={name}
+          value={value}
+          onChange={handleChange}
           placeholder={placeholder}
           data-testid="field-testid"
         />
@@ -28,6 +35,8 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder }) => {
         <input
           type="text"
           name={name}
+          value={value}
+          onChange={handleChange}
           placeholder={placeholder}
           data-testid="field-testid"
         />
@@ -46,12 +55,17 @@ Field.propTypes = {
   name: PropTypes.string,
   label: PropTypes.string,
   placeholder: PropTypes.string,
+  value: PropTypes.string, // Ajout de la prop type value
+  onChange: PropTypes.func,
+ 
 };
  Field.defaultProps = {
    label: "",
    placeholder: "",
    type: FIELD_TYPES.INPUT_TEXT,
    name: "field-name",
+   value: "",
+   onChange:() => {},
  }
 
 export default Field;

@@ -10,6 +10,8 @@ const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
   const [errorMessage, setErrorMessage] = useState(""); // État pour le message d'erreur
   const [successMessage, setSuccessMessage] = useState("");
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
 
   const sendContact = useCallback(
     async (evt) => {
@@ -19,10 +21,15 @@ const Form = ({ onSuccess, onError }) => {
       setErrorMessage("");
       setSuccessMessage("");
       // We try to call mockContactApi
+      if (!nom.trim() || !prenom.trim()) { // Vérifie si les champs Nom et Prénom ne sont pas vides
+        setSending(false);
+        setErrorMessage("Les champs Nom et Prénom ne doivent pas être vides.");
+        return;
+      }
       try {
         await mockContactApi();
         setSending(false);
-       
+
         onSuccess();
       } catch (err) {
         setSending(false);
@@ -30,14 +37,14 @@ const Form = ({ onSuccess, onError }) => {
         onError(err);
       }
     },
-    [onSuccess, onError]
+    [onSuccess, onError, nom, prenom]
   );
   return (
     <form onSubmit={sendContact}>
       <div className="row">
         <div className="col">
-          <Field placeholder="" label="Nom" />
-          <Field placeholder="" label="Prénom" />
+          <Field placeholder="" value={nom} label="Nom" onChange={(e) => setNom(e)} />
+          <Field placeholder="" value={prenom} label="Prénom" onChange={(e) => setPrenom(e)} />
           <Select
             selection={["Personel", "Entreprise"]}
             onChange={() => null}
@@ -60,7 +67,7 @@ const Form = ({ onSuccess, onError }) => {
       </div>
       {errorMessage && <div className="error-message">{errorMessage}</div>}
       {successMessage && <div className="success-message">{successMessage}</div>}
-    
+
     </form>
   );
 };
