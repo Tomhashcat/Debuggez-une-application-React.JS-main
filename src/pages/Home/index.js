@@ -130,18 +130,18 @@ const Page = () => {
         <h3>Contactez-nous</h3>
         <address>45 avenue de la République, 75000 Paris</address>
         <div>01 23 45 67 89</div>
-        <div>contact@77events.com</div>
+        <a  href="mailto:contact@77events.com">contact@77events.com</a>
         <div>
-          <a href="#twitch">
+          <a href="https://www.twitch.tv/">
             <Icon name="twitch" />
           </a>
-          <a href="#facebook">
+          <a href="https://fr-fr.facebook.com">
             <Icon name="facebook" />
           </a>
-          <a href="#twitter">
+          <a href="https://twitter.com/x">
             <Icon name="twitter" />
           </a>
-          <a href="#youtube">
+          <a href="https://www.youtube.com/">
             <Icon name="youtube" />
           </a>
         </div>
