@@ -19,6 +19,7 @@ const Select = ({
     // utilisation de newValue dans onchange ainsi que setCollapse a true
     onChange(newValue);
     setValue(newValue);
+    // definie setCollapse sur true
     setCollapsed(true);
   };
   return (
