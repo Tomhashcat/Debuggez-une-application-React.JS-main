@@ -128,7 +128,7 @@ const Page = () => {
       </div>
       <div className="col contact">
         <h3>Contactez-nous</h3>
-        <address>45 avenue de la République, 75000 Paris</address>
+        <a href="https://www.google.com/maps/place/45+Av.+de+la+R%C3%A9publique,+75011+Paris/@48.8651409,2.3760562,17z/data=!3m1!4b1!4m6!3m5!1s0x47e66dfb281b0c9d:0x2fe3bed19373a7ed!8m2!3d48.8651409!4d2.3760562!16s%2Fg%2F11csdk6ftv?entry=ttu"><address>45 avenue de la République, 75000 Paris</address></a>
         <div>01 23 45 67 89</div>
         <a  href="mailto:contact@77events.com">contact@77events.com</a>
         <div>
