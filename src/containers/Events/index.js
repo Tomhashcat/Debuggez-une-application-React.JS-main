@@ -24,8 +24,9 @@ const EventList = () => {
   const typeList = new Set(data?.events.map((event) => event.type));
   const filteredEvents = data?.events.filter(event => !type || event.type === type);
  
- // utilisation de Math.ceil.
-  const pageNumber = Math.ceil((filteredEvents?.length || 0) / PER_PAGE) + 1;
+ // utilisation de Math.ceil. 
+ // INTERVENTION = +1 to + 0
+  const pageNumber = Math.ceil((filteredEvents?.length || 0) / PER_PAGE) + 0;
 
  
   return (
