@@ -1,3 +1,4 @@
+import React, {useEffect, useState} from "react";
 import Menu from "../../containers/Menu";
 import ServiceCard from "../../components/ServiceCard";
 import EventCard from "../../components/EventCard";
@@ -12,8 +13,21 @@ import Form from "../../containers/Form";
 import Modal from "../../containers/Modal";
 import { useData } from "../../contexts/DataContext";
 
+
 const Page = () => {
-  const {last} = useData()
+  const { data } = useData();
+  const [last, setLast] = useState(null);
+  useEffect(() => {
+    if (data) {
+      // Triez les événements par date 
+      const sortedEvents = data.events.sort((a, b) => new Date(b.date) - new Date(a.date));
+      
+      // Sélectionnez le premier événement de la liste triée (le plus récent).
+      if (sortedEvents.length > 0) {
+        setLast(sortedEvents[0]);
+      }
+    }
+  }, [data]);
   return <>
     <header>
       <Menu />
@@ -113,18 +127,19 @@ const Page = () => {
         </Modal>
       </div>
     </main>
+    {last && (
     <footer className="row">
       <div className="col presta">
         <h3>Notre derniére prestation</h3>
-        {last && (
+      
     <EventCard
-      imageSrc={last.cover}
-      title={last.title}
-      date={new Date(last.date)}
+      imageSrc={last?.cover}
+      title={last?.title}
+      date={new Date(last?.date)}
       small
       label="boom"
     />
-  )}
+  
       </div>
       <div className="col contact">
         <h3>Contactez-nous</h3>
@@ -155,7 +170,7 @@ const Page = () => {
           culturelles, des événements professionnels
         </p>
       </div>
-    </footer>
+    </footer>)}
   </>
 }
 
