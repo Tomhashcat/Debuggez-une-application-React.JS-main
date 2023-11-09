@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Field, { FIELD_TYPES } from "../../components/Field";
 import Select from "../../components/Select";
@@ -8,66 +8,95 @@ const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 1000
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); // État pour le message d'erreur
-  const [successMessage, setSuccessMessage] = useState("");
+  // Set Name and Surname 
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
+  const [Email, setEmail] = useState("");
+   // State initial pour le champ Select
+  
+  const [selected, setSelected] = useState("");
+
+
 
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
       setSending(true);
-
-      setErrorMessage("");
-      setSuccessMessage("");
       // We try to call mockContactApi
-      if (!nom.trim() || !prenom.trim()) { // Vérifie si les champs Nom et Prénom ne sont pas vides
-        setSending(false);
-        setErrorMessage("Les champs Nom et Prénom ne doivent pas être vides.");
-        return;
-      }
       try {
         await mockContactApi();
+        // Réinitialiser les champs et le statut d'envoi
+        setNom("");
+        setPrenom("");
+        setEmail("");
         setSending(false);
+       setSelected("");
 
-        onSuccess();
+
+        // Call on success
+        onSuccess(); 
+       
+       
       } catch (err) {
         setSending(false);
-        setErrorMessage("Une erreur s'est produite lors de l'envoi.");
-        onError(err);
+        onError();
       }
     },
-    [onSuccess, onError, nom, prenom]
+    [onSuccess, onError]
   );
+  useEffect(() => {
+    
+  }, [sending]);
   return (
     <form onSubmit={sendContact}>
       <div className="row">
         <div className="col">
-          <Field placeholder="" value={nom} label="Nom" onChange={(e) => setNom(e)} />
-          <Field placeholder="" value={prenom} label="Prénom" onChange={(e) => setPrenom(e)} />
+          <Field
+            placeholder=""
+            label="Nom"
+            // get the new value
+            value={nom}
+            onChange={(newValue) => setNom(newValue)} />
+          <Field
+            placeholder=""
+            label="Prénom"
+            // get the new value
+            value={prenom}
+            onChange={(newValue) => setPrenom(newValue)} />
+
           <Select
             selection={["Personel", "Entreprise"]}
-            onChange={() => null}
+            onChange={(newValue) => setSelected(newValue)}
+            value={selected}
             label="Personel / Entreprise"
             type="large"
             titleEmpty
           />
-          <Field placeholder="" label="Email" />
+          <Field
+            placeholder=""
+            name="Email"
+            label="Email"
+            value={Email}
+            onChange={(newValue) => setEmail(newValue)}
+            required
+          />
           <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
             {sending ? "En cours" : "Envoyer"}
           </Button>
         </div>
+
         <div className="col">
+
           <Field
+            name="field-name"
             placeholder="message"
             label="Message"
+
+
             type={FIELD_TYPES.TEXTAREA}
           />
         </div>
       </div>
-      {errorMessage && <div className="error-message">{errorMessage}</div>}
-      {successMessage && <div className="success-message">{successMessage}</div>}
-
     </form>
   );
 };
@@ -75,6 +104,7 @@ const Form = ({ onSuccess, onError }) => {
 Form.propTypes = {
   onError: PropTypes.func,
   onSuccess: PropTypes.func,
+
 }
 
 Form.defaultProps = {

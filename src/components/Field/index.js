@@ -6,14 +6,20 @@ export const FIELD_TYPES = {
   INPUT_TEXT: 1,
   TEXTAREA: 2,
 };
-const isAlpha = (str) => /^[A-Za-z]+$/.test(str);
-const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, value, onChange }) => {
+// isValid 
+const isValidEmail = (str) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
+const isValid = (str) => /^[A-Za-z]+$/.test(str);
+const Field = ({ type = FIELD_TYPES.INPUT_TEXT && FIELD_TYPES.TEXTAREA, label, name, placeholder, value, onChange }) => {
   
   const handleChange = (e) => {
     const newValue = e.target.value;
 
     // Valider la nouvelle valeur pour ne permettre que des lettres
-    if (isAlpha(newValue) || newValue === '') {
+    if (
+      (type === FIELD_TYPES.INPUT_TEXT && isValid(newValue)) ||
+      (type === FIELD_TYPES.TEXTAREA) || // Pas de validation spécifique pour le TEXTAREA
+      (type === FIELD_TYPES.INPUT_TEXT && name === "Email" && isValidEmail(newValue))
+    ) {
       onChange(newValue);
     }
   };
@@ -28,11 +34,17 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, value,
           onChange={handleChange}
           placeholder={placeholder}
           data-testid="field-testid"
+          required
         />
       );
       break;
     case FIELD_TYPES.TEXTAREA:
-      component = <textarea name={name} data-testid="field-testid" />;
+      component =
+       <textarea name={name} 
+      onChange={handleChange} // Ajoute cette ligne pour les champs TEXTAREA
+      placeholder={placeholder} data-testid="field-testid" 
+       required/>;
+      
       break;
     default:
       component = (
@@ -43,6 +55,7 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT, label, name, placeholder, value,
           onChange={handleChange}
           placeholder={placeholder}
           data-testid="field-testid"
+          required
         />
       );
   }

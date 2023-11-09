@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { useState } from "react";
+import { useState  } from "react";
 import PropTypes from "prop-types";
 
 import "./style.scss";
@@ -22,6 +22,8 @@ const Select = ({
     // definie setCollapse sur true
     setCollapsed(true);
   };
+
+
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
       {label && <div className="label">{label}</div>}

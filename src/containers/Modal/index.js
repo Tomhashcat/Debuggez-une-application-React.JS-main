@@ -3,9 +3,13 @@ import { useState } from "react";
 import Icon from "../../components/Icon";
 import "./style.scss";
 
-const Modal = ({ opened, Content, children }) => {
+const Modal = ({ opened, Content, children}) => {
   const [isOpened, setIsOpened] = useState(opened);
-  
+  const handleClose = () => {
+    setIsOpened(false);
+    // Appelle la fonction onModalClose pour réinitialiser le formulaire
+   
+  };
   return (
     <>
       {children({ isOpened, setIsOpened })}
@@ -16,7 +20,7 @@ const Modal = ({ opened, Content, children }) => {
             <button
               type="button"
               data-testid="close-modal"
-              onClick={() => setIsOpened(false)}
+              onClick={handleClose}
             >
               <Icon name="close" />
             </button>
@@ -29,12 +33,14 @@ const Modal = ({ opened, Content, children }) => {
 
 Modal.defaultProps = {
   opened: false,
+  
 }
 
 Modal.propTypes = {
   opened: PropTypes.bool,
   Content: PropTypes.node.isRequired,
   children: PropTypes.func.isRequired,
+ 
 }
 
 export default Modal;

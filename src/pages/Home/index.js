@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Menu from "../../containers/Menu";
 import ServiceCard from "../../components/ServiceCard";
 import EventCard from "../../components/EventCard";
@@ -17,11 +17,14 @@ import { useData } from "../../contexts/DataContext";
 const Page = () => {
   const { data } = useData();
   const [last, setLast] = useState(null);
+  const onModalClose = () => {
+    // Code pour réinitialiser la modal
+  };
   useEffect(() => {
     if (data) {
       // Triez les événements par date 
       const sortedEvents = data.events.sort((a, b) => new Date(b.date) - new Date(a.date));
-      
+
       // Sélectionnez le premier événement de la liste triée (le plus récent).
       if (sortedEvents.length > 0) {
         setLast(sortedEvents[0]);
@@ -107,7 +110,8 @@ const Page = () => {
       </section>
       <div className="FormContainer" id="contact">
         <h2 id="contact" className="Title">Contact</h2>
-        <Modal
+        <Modal className="SuccessModal"
+        
           Content={
             <div className="ModalMessage--success">
               <div>Message envoyé !</div>
@@ -116,61 +120,67 @@ const Page = () => {
                 les plus brefs délais
               </p>
             </div>
+
           }
         >
           {({ setIsOpened }) => (
             <Form
-              onSuccess={() => setIsOpened(true)}
-              onError={() => null}
+              onSuccess={() =>{ setIsOpened(true);
+                  onModalClose();}}
+          onError={() => null}
             />
           )}
         </Modal>
+
+
+
+
       </div>
     </main>
     {last && (
-    <footer className="row">
-      <div className="col presta">
-        <h3>Notre derniére prestation</h3>
-      
-    <EventCard
-      imageSrc={last?.cover}
-      title={last?.title}
-      date={new Date(last?.date)}
-      small
-      label="boom"
-    />
-  
-      </div>
-      <div className="col contact">
-        <h3>Contactez-nous</h3>
-        <a href="https://www.google.com/maps/place/45+Av.+de+la+R%C3%A9publique,+75011+Paris/@48.8651409,2.3760562,17z/data=!3m1!4b1!4m6!3m5!1s0x47e66dfb281b0c9d:0x2fe3bed19373a7ed!8m2!3d48.8651409!4d2.3760562!16s%2Fg%2F11csdk6ftv?entry=ttu"><address>45 avenue de la République, 75000 Paris</address></a>
-        <div>01 23 45 67 89</div>
-        <a  href="mailto:contact@77events.com">contact@77events.com</a>
-        <div>
-          <a href="https://www.twitch.tv/">
-            <Icon name="twitch" />
-          </a>
-          <a href="https://fr-fr.facebook.com">
-            <Icon name="facebook" />
-          </a>
-          <a href="https://twitter.com/x">
-            <Icon name="twitter" />
-          </a>
-          <a href="https://www.youtube.com/">
-            <Icon name="youtube" />
-          </a>
+      <footer className="row">
+        <div className="col presta">
+          <h3>Notre derniére prestation</h3>
+
+          <EventCard
+            imageSrc={last?.cover}
+            title={last?.title}
+            date={new Date(last?.date)}
+            small
+            label="boom"
+          />
+
         </div>
-      </div>
-      <div className="col description">
-        <Logo size="large" />
-        <p>
-          Une agence événementielle propose des prestations de service
-          spécialisées dans la conception et l&apos;organisation de divers événements
-          tels que des événements festifs, des manifestations sportives et
-          culturelles, des événements professionnels
-        </p>
-      </div>
-    </footer>)}
+        <div className="col contact">
+          <h3>Contactez-nous</h3>
+          <a href="https://www.google.com/maps/place/45+Av.+de+la+R%C3%A9publique,+75011+Paris/@48.8651409,2.3760562,17z/data=!3m1!4b1!4m6!3m5!1s0x47e66dfb281b0c9d:0x2fe3bed19373a7ed!8m2!3d48.8651409!4d2.3760562!16s%2Fg%2F11csdk6ftv?entry=ttu"><address>45 avenue de la République, 75000 Paris</address></a>
+          <div>01 23 45 67 89</div>
+          <a href="mailto:contact@77events.com">contact@77events.com</a>
+          <div>
+            <a href="https://www.twitch.tv/">
+              <Icon name="twitch" />
+            </a>
+            <a href="https://fr-fr.facebook.com">
+              <Icon name="facebook" />
+            </a>
+            <a href="https://twitter.com/x">
+              <Icon name="twitter" />
+            </a>
+            <a href="https://www.youtube.com/">
+              <Icon name="youtube" />
+            </a>
+          </div>
+        </div>
+        <div className="col description">
+          <Logo size="large" />
+          <p>
+            Une agence événementielle propose des prestations de service
+            spécialisées dans la conception et l&apos;organisation de divers événements
+            tels que des événements festifs, des manifestations sportives et
+            culturelles, des événements professionnels
+          </p>
+        </div>
+      </footer>)}
   </>
 }
 
