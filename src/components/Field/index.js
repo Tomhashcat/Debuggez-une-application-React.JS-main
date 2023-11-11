@@ -9,6 +9,7 @@ export const FIELD_TYPES = {
 // isValid 
 const isValidEmail = (str) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
 const isValid = (str) => /^[A-Za-z]+$/.test(str);
+
 const Field = ({ type = FIELD_TYPES.INPUT_TEXT && FIELD_TYPES.TEXTAREA, label, name, placeholder, value, onChange }) => {
   
   const handleChange = (e) => {
@@ -17,7 +18,7 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT && FIELD_TYPES.TEXTAREA, label, n
     // Valider la nouvelle valeur pour ne permettre que des lettres
     if (
       (type === FIELD_TYPES.INPUT_TEXT && isValid(newValue)) ||
-      (type === FIELD_TYPES.TEXTAREA) || // Pas de validation spécifique pour le TEXTAREA
+      (type === FIELD_TYPES.TEXTAREA && name==="field-name" && onChange()) || // Pas de validation spécifique pour le TEXTAREA
       (type === FIELD_TYPES.INPUT_TEXT && name === "Email" && isValidEmail(newValue))
     ) {
       onChange(newValue);

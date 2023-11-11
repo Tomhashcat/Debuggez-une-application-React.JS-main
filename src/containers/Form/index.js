@@ -29,6 +29,7 @@ const Form = ({ onSuccess, onError }) => {
         setNom("");
         setPrenom("");
         setEmail("");
+
         setSending(false);
        setSelected("");
 
@@ -44,8 +45,15 @@ const Form = ({ onSuccess, onError }) => {
     },
     [onSuccess, onError]
   );
+ 
   useEffect(() => {
-    
+    if (sending === false) {
+      // Reset the form fields when sending is done
+      setNom("");
+      setPrenom("");
+      setEmail("");
+      setSelected("");
+    }
   }, [sending]);
   return (
     <form onSubmit={sendContact}>
@@ -87,13 +95,15 @@ const Form = ({ onSuccess, onError }) => {
 
         <div className="col">
 
-          <Field
+          <Field 
+          
+          type={FIELD_TYPES.TEXTAREA}
             name="field-name"
             placeholder="message"
             label="Message"
 
 
-            type={FIELD_TYPES.TEXTAREA}
+          
           />
         </div>
       </div>
