@@ -8,6 +8,7 @@ const Modal = ({ opened, Content, children}) => {
   const handleClose = () => {
     setIsOpened(false);
     // Appelle la fonction onModalClose pour réinitialiser le formulaire
+    window.location.reload(); // Actualiser la page
    
   };
   return (

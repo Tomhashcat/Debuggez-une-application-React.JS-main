@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 import Field, { FIELD_TYPES } from "../../components/Field";
 import Select from "../../components/Select";
@@ -12,32 +12,24 @@ const Form = ({ onSuccess, onError }) => {
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
   const [Email, setEmail] = useState("");
-   // State initial pour le champ Select
-  
+  // State initial pour le champ Select
+
   const [selected, setSelected] = useState("");
-
-
 
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
       setSending(true);
+
       // We try to call mockContactApi
       try {
         await mockContactApi();
+
         // Réinitialiser les champs et le statut d'envoi
-        setNom("");
-        setPrenom("");
-        setEmail("");
-
         setSending(false);
-       setSelected("");
-
 
         // Call on success
-        onSuccess(); 
-       
-       
+        onSuccess();
       } catch (err) {
         setSending(false);
         onError();
@@ -45,16 +37,7 @@ const Form = ({ onSuccess, onError }) => {
     },
     [onSuccess, onError]
   );
- 
-  useEffect(() => {
-    if (sending === false) {
-      // Reset the form fields when sending is done
-      setNom("");
-      setPrenom("");
-      setEmail("");
-      setSelected("");
-    }
-  }, [sending]);
+
   return (
     <form onSubmit={sendContact}>
       <div className="row">
@@ -92,18 +75,12 @@ const Form = ({ onSuccess, onError }) => {
             {sending ? "En cours" : "Envoyer"}
           </Button>
         </div>
-
         <div className="col">
-
-          <Field 
-          
-          type={FIELD_TYPES.TEXTAREA}
+          <Field
+            type={FIELD_TYPES.TEXTAREA}
             name="field-name"
             placeholder="message"
             label="Message"
-
-
-          
           />
         </div>
       </div>

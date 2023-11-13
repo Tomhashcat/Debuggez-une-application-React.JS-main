@@ -18,6 +18,7 @@ const Page = () => {
   const { data } = useData();
   const [last, setLast] = useState(null);
   const onModalClose = () => {
+    
     // Code pour réinitialiser la modal
   };
   useEffect(() => {
