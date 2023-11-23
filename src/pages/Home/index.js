@@ -17,9 +17,10 @@ import { useData } from "../../contexts/DataContext";
 const Page = () => {
   const { data } = useData();
   const [last, setLast] = useState(null);
+  const [error, setError] = useState(null);
   const onModalClose = () => {
-    
-    // Code pour réinitialiser la modal
+
+    setError(null);
   };
   useEffect(() => {
     if (data) {
@@ -112,24 +113,35 @@ const Page = () => {
       <div className="FormContainer" id="contact">
         <h2 id="contact" className="Title">Contact</h2>
         <Modal className="SuccessModal"
-        
-          Content={
-            <div className="ModalMessage--success">
-              <div>Message envoyé !</div>
-              <p>
-                Merci pour votre message nous tâcherons de vous répondre dans
-                les plus brefs délais
-              </p>
-            </div>
-
-          }
-        >
+      Content={
+        error ? (
+          <div className="ModalMessage--error">
+            <p>Erreur lors de l&apos;envoi !</p>
+            <p>{error}</p>
+          </div>
+        ) : (
+          <div className="ModalMessage--success">
+            <div>Message envoyé !</div>
+            <p>
+              Merci pour votre message nous tâcherons de vous répondre dans
+              les plus brefs délais
+            </p>
+          </div>
+        )
+      }
+    >
           {({ setIsOpened }) => (
             <Form
-              onSuccess={() =>{ setIsOpened(true);
-                  onModalClose();}}
-          onError={() => null}
-            />
+              onSuccess={() => {
+                setIsOpened(true);
+                onModalClose();
+              }}
+              onError={(errorMessage) => {
+                setError(errorMessage);
+                setIsOpened(true);
+                onModalClose();
+              }
+              } />
           )}
         </Modal>
 

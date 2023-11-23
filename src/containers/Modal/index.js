@@ -3,12 +3,16 @@ import { useState } from "react";
 import Icon from "../../components/Icon";
 import "./style.scss";
 
+
+
 const Modal = ({ opened, Content, children}) => {
+  
   const [isOpened, setIsOpened] = useState(opened);
   const handleClose = () => {
     setIsOpened(false);
     // Appelle la fonction onModalClose pour réinitialiser le formulaire
-    window.location.reload(); // Actualiser la page
+    // Actualiser la page
+    window.location.reload(); 
    
   };
   return (

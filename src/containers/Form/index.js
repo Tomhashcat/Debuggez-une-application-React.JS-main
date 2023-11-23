@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import PropTypes from "prop-types";
-import Field, { FIELD_TYPES } from "../../components/Field";
+import Field, { FIELD_TYPES, isValidEmail} from "../../components/Field";
 import Select from "../../components/Select";
 import Button, { BUTTON_TYPES } from "../../components/Button";
 
@@ -15,27 +15,29 @@ const Form = ({ onSuccess, onError }) => {
   // State initial pour le champ Select
 
   const [selected, setSelected] = useState("");
-
+  const [error, setError] = useState(null);
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
       setSending(true);
 
+      if (!isValidEmail(Email)) {
+        setSending(false);
+        setError("L'email fourni n'est pas valide."); // Appeler onError en cas d'email invalide
+        return;
+      }
       // We try to call mockContactApi
       try {
         await mockContactApi();
-
-        // Réinitialiser les champs et le statut d'envoi
         setSending(false);
-
-        // Call on success
+        setError(null); // Clear error message on success
         onSuccess();
       } catch (err) {
         setSending(false);
         onError();
       }
     },
-    [onSuccess, onError]
+    [onSuccess, onError, Email]
   );
 
   return (
@@ -64,13 +66,15 @@ const Form = ({ onSuccess, onError }) => {
             titleEmpty
           />
           <Field
+       
             placeholder=""
             name="Email"
             label="Email"
-            value={Email}
+            value={Email}                    
             onChange={(newValue) => setEmail(newValue)}
             required
           />
+         {error && <p style={{ color: "red" }}>{error}</p>}
           <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
             {sending ? "En cours" : "Envoyer"}
           </Button>
@@ -91,7 +95,7 @@ const Form = ({ onSuccess, onError }) => {
 Form.propTypes = {
   onError: PropTypes.func,
   onSuccess: PropTypes.func,
-
+  
 }
 
 Form.defaultProps = {

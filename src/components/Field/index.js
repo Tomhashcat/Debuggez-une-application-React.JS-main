@@ -7,8 +7,8 @@ export const FIELD_TYPES = {
   TEXTAREA: 2,
 };
 // isValid 
-const isValidEmail = (str) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
-const isValid = (str) => /^[A-Za-z]+$/.test(str);
+ export const isValidEmail = (str) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(str);
+export const isValid = (str) => /^[A-Za-z]+$/.test(str);
 
 const Field = ({ type = FIELD_TYPES.INPUT_TEXT && FIELD_TYPES.TEXTAREA, label, name, placeholder, value, onChange }) => {
   
@@ -19,7 +19,7 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT && FIELD_TYPES.TEXTAREA, label, n
     if (
       (type === FIELD_TYPES.INPUT_TEXT && isValid(newValue)) ||
       (type === FIELD_TYPES.TEXTAREA && name==="field-name" && onChange()) || // Pas de validation spécifique pour le TEXTAREA
-      (type === FIELD_TYPES.INPUT_TEXT && name === "Email" && isValidEmail(newValue))
+      (type === FIELD_TYPES.INPUT_TEXT && name === "Email" &&  (newValue))
     ) {
       onChange(newValue);
     }
@@ -29,13 +29,14 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT && FIELD_TYPES.TEXTAREA, label, n
     case FIELD_TYPES.INPUT_TEXT:
       component = (
         <input
-          type="text"
-          name={name}
-          value={value}
-          onChange={handleChange}
-          placeholder={placeholder}
-          data-testid="field-testid"
-          required
+        type="text"
+        name={name}
+        value={value}
+        onChange={handleChange}
+        placeholder={placeholder}
+        data-testid="field-testid"
+        autoComplete={name === "Email" ? "email" : "name"}  
+        required
         />
       );
       break;
@@ -56,6 +57,7 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT && FIELD_TYPES.TEXTAREA, label, n
           onChange={handleChange}
           placeholder={placeholder}
           data-testid="field-testid"
+        
           required
         />
       );
