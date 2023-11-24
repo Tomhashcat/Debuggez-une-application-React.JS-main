@@ -42,7 +42,7 @@ const EventList = () => {
             onChange={(value) => (value ? changeType(value) : changeType(null))}
           />
           <div id="events" className="ListContainer">
-            {filteredEvents.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE)
+            {filteredEvents && filteredEvents.slice((currentPage - 1) * PER_PAGE, currentPage * PER_PAGE)
               .map((event) => (
               <Modal key={event.id} Content={<ModalEvent event={event} />}>
                 {({ setIsOpened }) => (

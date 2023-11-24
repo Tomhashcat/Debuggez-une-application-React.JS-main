@@ -12,6 +12,7 @@ const Form = ({ onSuccess, onError }) => {
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
   const [Email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
   // State initial pour le champ Select
 
   const [selected, setSelected] = useState("");
@@ -31,9 +32,11 @@ const Form = ({ onSuccess, onError }) => {
         await mockContactApi();
         setSending(false);
         setError(null); // Clear error message on success
+        setMessage("Message envoyé !");
         onSuccess();
       } catch (err) {
         setSending(false);
+        setError("Erreur lors de l'envoi. Veuillez réessayer.");
         onError();
       }
     },
@@ -75,6 +78,7 @@ const Form = ({ onSuccess, onError }) => {
             required
           />
          {error && <p style={{ color: "red" }}>{error}</p>}
+         {message && <p style={{ color: "green" }}>{message}</p>}
           <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
             {sending ? "En cours" : "Envoyer"}
           </Button>
