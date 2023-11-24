@@ -79,8 +79,10 @@ const Form = ({ onSuccess, onError }) => {
           />
          {error && <p style={{ color: "red" }}>{error}</p>}
          {message && <p style={{ color: "green" }}>{message}</p>}
-          <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}>
-            {sending ? "En cours" : "Envoyer"}
+          <Button data-testid="button-test-id" type={BUTTON_TYPES.SUBMIT} disabled={sending}>
+            <p data-testid="button-test-id" className={sending ? "sending-text" : "normal-text"}>
+    {sending ? "En cours" : "Envoyer"}
+  </p>
           </Button>
         </div>
         <div className="col">

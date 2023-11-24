@@ -113,25 +113,25 @@ const Page = () => {
       <div className="FormContainer" id="contact">
         <h2 id="contact" className="Title">Contact</h2>
         <Modal className="SuccessModal"
-      Content={
-        error ? (
-          <div className="ModalMessage--error">
-            <p>Erreur lors de l&apos;envoi !</p>
-            <p>{error}</p>
-          </div>
-        ) : (
-          <div className="ModalMessage--success">
-            <div>Message envoyé !</div>
-            <p>
-              Merci pour votre message nous tâcherons de vous répondre dans
-              les plus brefs délais
-            </p>
-          </div>
-        )
-      }
-    >
+          Content={
+            error ? (
+              <div className="ModalMessage--error">
+                <p>Erreur lors de l&apos;envoi !</p>
+                <p>{error}</p>
+              </div>
+            ) : (
+              <div className="ModalMessage--success">
+                <div>Message envoyé !</div>
+                <p>
+                  Merci pour votre message nous tâcherons de vous répondre dans
+                  les plus brefs délais
+                </p>
+              </div>
+            )
+          }
+        >
           {({ setIsOpened }) => (
-            <Form
+            <Form 
               onSuccess={() => {
                 setIsOpened(true);
                 onModalClose();
