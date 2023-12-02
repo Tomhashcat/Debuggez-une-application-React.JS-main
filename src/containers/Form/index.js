@@ -1,10 +1,10 @@
 import { useCallback, useState } from "react";
 import PropTypes from "prop-types";
-import Field, { FIELD_TYPES, isValidEmail} from "../../components/Field";
+import Field, { FIELD_TYPES} from "../../components/Field";
 import Select from "../../components/Select";
 import Button, { BUTTON_TYPES } from "../../components/Button";
 
-const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 1000); })
+const mockContactApi = () => new Promise((resolve) => { setTimeout(resolve, 800); })
 
 const Form = ({ onSuccess, onError }) => {
   const [sending, setSending] = useState(false);
@@ -12,31 +12,27 @@ const Form = ({ onSuccess, onError }) => {
   const [nom, setNom] = useState("");
   const [prenom, setPrenom] = useState("");
   const [Email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [message] = useState("");
   // State initial pour le champ Select
 
   const [selected, setSelected] = useState("");
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
   const sendContact = useCallback(
     async (evt) => {
       evt.preventDefault();
       setSending(true);
 
-      if (!isValidEmail(Email)) {
-        setSending(false);
-        setError("L'email fourni n'est pas valide."); // Appeler onError en cas d'email invalide
-        return;
-      }
+      
       // We try to call mockContactApi
       try {
         await mockContactApi();
         setSending(false);
-        setError(null); // Clear error message on success
-        setMessage("Message envoyé !");
+      
+       
         onSuccess();
       } catch (err) {
         setSending(false);
-        setError("Erreur lors de l'envoi. Veuillez réessayer.");
+       
         onError();
       }
     },
@@ -75,14 +71,12 @@ const Form = ({ onSuccess, onError }) => {
             label="Email"
             value={Email}                    
             onChange={(newValue) => setEmail(newValue)}
-            required
+           
           />
          {error && <p style={{ color: "red" }}>{error}</p>}
          {message && <p style={{ color: "green" }}>{message}</p>}
-          <Button data-testid="button-test-id" type={BUTTON_TYPES.SUBMIT} disabled={sending}>
-            <p data-testid="button-test-id" className={sending ? "sending-text" : "normal-text"}>
-    {sending ? "En cours" : "Envoyer"}
-  </p>
+         <Button type={BUTTON_TYPES.SUBMIT} disabled={sending}> 
+            {sending ? "En cours" : "Envoyer"}
           </Button>
         </div>
         <div className="col">

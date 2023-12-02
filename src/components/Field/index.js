@@ -36,7 +36,7 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT && FIELD_TYPES.TEXTAREA, label, n
         placeholder={placeholder}
         data-testid="field-testid"
         autoComplete={name === "Email" ? "email" : "name"}  
-        required
+      
         />
       );
       break;
@@ -45,7 +45,7 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT && FIELD_TYPES.TEXTAREA, label, n
        <textarea name={name} 
       onChange={handleChange} // Ajoute cette ligne pour les champs TEXTAREA
       placeholder={placeholder} data-testid="field-testid" 
-       required/>;
+      />;
       
       break;
     default:
@@ -58,7 +58,7 @@ const Field = ({ type = FIELD_TYPES.INPUT_TEXT && FIELD_TYPES.TEXTAREA, label, n
           placeholder={placeholder}
           data-testid="field-testid"
         
-          required
+         
         />
       );
   }
